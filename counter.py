@@ -28,7 +28,7 @@ class QtButton(QObject):
         self.changed.emit()
 
 class Counter(QWidget):
-    minimum = 0
+    minimum = 15
     maximum = 0
     
     def __init__(self):
@@ -59,14 +59,13 @@ class Counter(QWidget):
                 self.leds[i].off()
             
     def cUp(self):
-        self.count += 1
+        if(self.count >= self.minumum && self.count < self.maximum)
+            self.count += 1
         self.leds(self.count)
         self.lcd.display(self.count)
         
     def cDown(self):
-        if (self.count == self.minimum):
-            self.count = self.maximum
-        else: 
+        if (self.count == self.self.maximum):
             self.count -= 1
         self.lcd.display(self.count)
         self.leds(self.count)
