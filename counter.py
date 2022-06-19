@@ -44,13 +44,12 @@ class Counter(QWidget):
         self.setMinimumSize(400, 200)
         self.setWindowTitle('Counter Freißmuth')
         self.show()
-
-   def triggerLeds (self, count):
-    for i, led in enumerate(leds): 
-        if(count &1<<i):
-            led.on()
-        else:
-            led.off()
+    def triggerLeds (self, count):
+        for i, led in enumerate(leds): 
+            if(count &1<<i):
+                led.on()
+            else:
+                led.off()
             
     def cUp(self):
         if self.count == self.maximum:
