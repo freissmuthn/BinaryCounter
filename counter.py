@@ -11,7 +11,7 @@ from signal import pause
 DOWN_PIN = 22
 RESET_PIN = 27
 UP_PIN = 17 
-leds=[LED(18),LED(23),LED(24),LED(25)]
+leds=[LED(25),LED(24),LED(23),LED(18)]
 
 class QtButton(QObject):
     changed = pyqtSignal()
