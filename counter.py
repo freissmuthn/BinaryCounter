@@ -12,9 +12,6 @@ DOWN_PIN = 22
 RESET_PIN = 27
 UP_PIN = 17 
 leds=[LED(18),LED(23),LED(24),LED(25)]
-#eigene Klasse für LEDs erstellen
-#Counter mit den LEDs visualisieren
-# nicht in den negativen Bereich zählen, bei 0 wieder zu 15 wechseln
 
 class QtButton(QObject):
     changed = pyqtSignal()
@@ -27,14 +24,14 @@ class QtButton(QObject):
     def gpioChange(self):
         self.changed.emit()
 
-class Counter(QWidget):
-    minimum = 15
-    maximum = 0
-    
+class Counter(QWidget):    
     def __init__(self):
         super().__init__()
         self.initUi()
         self.count = 0
+        self.minimum = 0
+        self.maximum = 15
+        self.bitmax = 16
 
     def initUi(self):
         self.lcd = QLCDNumber()
@@ -48,31 +45,31 @@ class Counter(QWidget):
         self.setWindowTitle('Counter Freißmuth')
         self.show()
 
-    def leds (self, count):
-        self.length = len(leds)
-        for i in range(self.length):
-            bit = 2 ** i # 2^i --> 1 2 4 8 
-            value = int(count / bit) 
-            if value % 2 == 1:
-                self.leds[i].on()
-            else:
-                self.leds[i].off()
+   def triggerLeds (self, count):
+    for i, led in enumerate(leds): 
+        if(count &1<<i):
+            led.on()
+        else:
+            led.off()
             
     def cUp(self):
-        if(self.count >= self.minumum && self.count < self.maximum)
-            self.count += 1
-        self.leds(self.count)
+        if self.count == self.maximum:
+            self.count = -1
+        self.count += 1
         self.lcd.display(self.count)
+        self.triggerLeds(sel.count)
         
     def cDown(self):
-        if (self.count == self.self.maximum):
-            self.count -= 1
+        if self.count == self.minimum:
+            self.count = sel.bitmax
+        self.count -= 1
         self.lcd.display(self.count)
-        self.leds(self.count)
+        self.triggerLeds(sel.count)
         
     def cReset(self):
-        self.count = self.minimum #0
+        self.count = self.minimum 
         self.lcd.display(self.count)
+        self.triggerLeds(sel.count)
 
 if __name__ ==  '__main__':
     app = QApplication([])
@@ -83,3 +80,4 @@ if __name__ ==  '__main__':
     btnReset.changed.connect(gui.cReset)
     btnDown.changed.connect(gui.cDown)
     btnUp.changed.connect(gui.cUp)
+    app.exec_()
