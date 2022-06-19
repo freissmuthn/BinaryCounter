@@ -57,19 +57,19 @@ class Counter(QWidget):
             self.count = -1
         self.count += 1
         self.lcd.display(self.count)
-        self.triggerLeds(sel.count)
+        self.triggerLeds(self.count)
         
     def cDown(self):
         if self.count == self.minimum:
-            self.count = sel.bitmax
+            self.count = self.bitmax
         self.count -= 1
         self.lcd.display(self.count)
-        self.triggerLeds(sel.count)
+        self.triggerLeds(self.count)
         
     def cReset(self):
         self.count = self.minimum 
         self.lcd.display(self.count)
-        self.triggerLeds(sel.count)
+        self.triggerLeds(self.count)
 
 if __name__ ==  '__main__':
     app = QApplication([])
